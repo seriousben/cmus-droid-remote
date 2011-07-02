@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TableLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<TableRow>
+			<TextView android:text="@string/hostAndPortLabel"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		</TableRow>
+		<TableRow>
+			<AutoCompleteTextView android:id="@+id/hostText" android:completionThreshold="1" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:hint="Host or IP"></AutoCompleteTextView>
+			<EditText android:id="@+id/portText" android:layout_height="wrap_content"
+				android:inputType="number" android:layout_width="wrap_content"
+				android:layout_weight="1" android:hint="Port">
+				<requestFocus></requestFocus>
+			</EditText>
+		</TableRow>
+		<TableRow>
+			<TextView android:text="@string/passwordLabel"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		</TableRow>
+		<TableRow>
+			<EditText android:id="@+id/passwordText" android:inputType="textPassword"
+				android:layout_height="wrap_content" android:layout_width="wrap_content"
+				android:layout_weight="1" android:hint="Password"/>
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="@string/commandLabel" />
+		</TableRow>
+		<TableRow>
+			<Spinner android:layout_weight="1"
+				android:id="@+id/commandSpinner" android:prompt="@string/commandLabel" android:layout_height="fill_parent" android:layout_width="wrap_content" android:minHeight="60dp" android:padding="10dp"/>
+		</TableRow>
+		<TableRow>
+			<Button android:layout_height="wrap_content" android:text="@string/sendCommandButtonLabel"
+				android:id="@+id/sendCommandButton" android:layout_width="fill_parent"
+				android:layout_weight="1" />
+		</TableRow>
+	</TableLayout>
+</LinearLayout>
