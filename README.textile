@@ -18,11 +18,15 @@ h2. How to have fun!
 
 h3. Debugging
 
-1. Try with cmus-remote
+1. Is Cmus listening on the right port?
+
+@sudo netstat -tunl -p tcp@
+
+2. Try with cmus-remote
 
 @cmus-remote --server localhost --passwd password -C status@
 
-2. What is going on the network
+3. What is going on the network
 
 @sudo tcpdump -i lo tcp -X -v@
 
