@@ -2,17 +2,19 @@ Android version of cmus-remote to control your Cmus music player
 
 h2. How to have fun!
 
-0. Setup Cmus settings
+1. Download and install "the last release":https://github.com/dreur/cmus-droid-remote/blob/master/releases/cmus-droid-remote-1.0.apk
+
+2. Setup Cmus settings
 
 @set passwd=<Your Password>@
 
-1. Run Cmus with a network socket and not a Unix file socket:
+3. Run Cmus with a network socket and not a Unix file socket:
 
 @cmus --listen 0.0.0.0@
 
-2. Connect to it with cmus-droid-remote!
+4. Connect to it with cmus-droid-remote!
 
-3. Listen to some good music while impressing your friends or neighbors (depending on volume) by controlling the music with your Android
+5. Listen to some good music while impressing your friends or neighbors (depending on volume) by controlling the music with your Android
 
 h3. Debugging
 
