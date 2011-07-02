@@ -1,0 +1,29 @@
+Android version of cmus-remote to control your Cmus music player
+
+h2. How to have fun!
+
+0. Setup Cmus settings
+
+@set passwd=<Your Password>
+
+1. Run Cmus with a network socket and not a Unix file socket:
+
+@cmus --listen 0.0.0.0
+
+2. Connect to it with cmus-droid-remote!
+
+3. Listen to some good music while impressing your friends or neighbors (depending on volume) by controlling the music with your Android
+
+h3. Debugging
+
+1. Try with cmus-remote
+
+@cmus-remote --server localhost --passwd password -C status
+
+2. What is going on the network
+
+@sudo tcpdump -i lo tcp -X -v
+
+or 
+
+@sudo tcpdump -i wlan0 tcp -X -v 
