@@ -154,8 +154,8 @@ public class CmusDroidRemoteActivity extends Activity {
 			}
 			try {
 				DecimalFormat twoDForm = new DecimalFormat("#.##%");
-				Float positionF= Float.parseFloat(position);
-				Float durationF= Float.parseFloat(duration);
+				Float positionF = Float.parseFloat(position);
+				Float durationF = Float.parseFloat(duration);
 				return twoDForm.format(positionF / durationF);
 			} catch (Exception e) {
 				Log.w(TAG, e);
@@ -190,19 +190,19 @@ public class CmusDroidRemoteActivity extends Activity {
 			}
 			this.settings.put(key, value);
 		}
-		
+
 		public String getUnifiedVolume() {
-			String volRight= settings.get("vol_right");
-			String volLeft= settings.get("vol_left");
+			String volRight = settings.get("vol_right");
+			String volLeft = settings.get("vol_left");
 			if (volLeft == null && volRight != null) {
 				return volRight + "%";
 			} else if (volLeft != null && volRight == null) {
 				return volLeft + "%";
 			}
 			try {
-				Float volRightF= Float.parseFloat(volRight);
-				Float volLeftF= Float.parseFloat(volLeft);
-				
+				Float volRightF = Float.parseFloat(volRight);
+				Float volLeftF = Float.parseFloat(volLeft);
+
 				DecimalFormat twoDForm = new DecimalFormat("#.##");
 				return twoDForm.format((volRightF + volLeftF) / 2.0f) + "%";
 			} catch (Exception e) {
@@ -210,9 +210,9 @@ public class CmusDroidRemoteActivity extends Activity {
 				return "Unknown";
 			}
 		}
-		
+
 		public String toSimpleString() {
-			StringBuilder strBuilder= new StringBuilder();
+			StringBuilder strBuilder = new StringBuilder();
 			strBuilder.append("Artist: ").append(getTag("artist")).append("\n");
 			strBuilder.append("Title: ").append(getTag("title")).append("\n");
 			strBuilder.append("Position: ").append(getPositionPercent()).append("\n");
@@ -242,7 +242,7 @@ public class CmusDroidRemoteActivity extends Activity {
 		mPasswordText = (EditText) findViewById(R.id.passwordText);
 		mCommandSpinner = (Spinner) findViewById(R.id.commandSpinner);
 		mSendCommandButton = (Button) findViewById(R.id.sendCommandButton);
-		
+
 		mPortText.setText("3000");
 
 		hostAdapter = new ArrayAdapter<String>(this,
@@ -265,75 +265,78 @@ public class CmusDroidRemoteActivity extends Activity {
 
 	private void runSearchHosts() {
 
-		new Thread(new Runnable() {
+		if (isUsingWifi()) {
 
-			public void run() {
-				try {
-					InetAddress localhost = null;
-					;
-					for (final Enumeration<NetworkInterface> interfaces = NetworkInterface
-							.getNetworkInterfaces(); interfaces
-							.hasMoreElements() && localhost == null;) {
-						final NetworkInterface cur = interfaces.nextElement();
+			new Thread(new Runnable() {
 
-						if (cur.getName().equals("lo")) {
-							continue;
-						}
-						Log.v(TAG, "interface " + cur.getName());
-
-						for (final Enumeration<InetAddress> inetAddresses = cur
-								.getInetAddresses(); inetAddresses
+				public void run() {
+					try {
+						InetAddress localhost = null;
+						;
+						for (final Enumeration<NetworkInterface> interfaces = NetworkInterface
+								.getNetworkInterfaces(); interfaces
 								.hasMoreElements() && localhost == null;) {
-							final InetAddress inet_addr = inetAddresses
-									.nextElement();
+							final NetworkInterface cur = interfaces.nextElement();
 
-							if (!(inet_addr instanceof Inet4Address)) {
+							if (cur.getName().equals("lo")) {
 								continue;
 							}
+							Log.v(TAG, "interface " + cur.getName());
 
-							Log.v(TAG, "Found local addr: " + inet_addr);
-							localhost = inet_addr;
-						}
-					}
+							for (final Enumeration<InetAddress> inetAddresses = cur
+									.getInetAddresses(); inetAddresses
+									.hasMoreElements() && localhost == null;) {
+								final InetAddress inet_addr = inetAddresses
+										.nextElement();
 
-					// this code assumes IPv4 is used
+								if (!(inet_addr instanceof Inet4Address)) {
+									continue;
+								}
 
-					if (localhost != null) {
-
-						byte[] ip = localhost.getAddress();
-
-						for (int i = 1; i <= 254; i++) {
-
-							ip[3] = (byte) i;
-							final InetAddress address = InetAddress.getByAddress(ip);
-
-							if (address.isReachable(200)) {
-								Log.v(TAG, "Found an addr on LAN: "
-												+ address.getHostAddress());
-								CmusDroidRemoteActivity.this.runOnUiThread(new Runnable() {
-									public void run() {
-										hostAdapter.add(address.getHostAddress());
-									}
-								});
-								// machine is turned on and can be pinged
-							} else if (!address.getHostAddress().equals(
-									address.getHostName())) {
-								// machine is known in a DNS lookup
-							} else {
-								// the host address and host name are equal,
-								// meaning
-								// the
-								// host
-								// name could not be resolved
+								Log.v(TAG, "Found local addr: " + inet_addr);
+								localhost = inet_addr;
 							}
 						}
 
+						// this code assumes IPv4 is used
+
+						if (localhost != null) {
+
+							byte[] ip = localhost.getAddress();
+
+							for (int i = 1; i <= 254; i++) {
+
+								ip[3] = (byte) i;
+								final InetAddress address = InetAddress.getByAddress(ip);
+
+								if (address.isReachable(200)) {
+									Log.v(TAG, "Found an addr on LAN: "
+											+ address.getHostAddress());
+									CmusDroidRemoteActivity.this.runOnUiThread(new Runnable() {
+										public void run() {
+											hostAdapter.add(address.getHostAddress());
+										}
+									});
+									// machine is turned on and can be pinged
+								} else if (!address.getHostAddress().equals(
+										address.getHostName())) {
+									// machine is known in a DNS lookup
+								} else {
+									// the host address and host name are equal,
+									// meaning
+									// the
+									// host
+									// name could not be resolved
+								}
+							}
+
+						}
+					} catch (Exception e) {
+						Log.e(TAG, "Error: " + e.getMessage(), e);
 					}
-				} catch (Exception e) {
-					Log.e(TAG, "Error: " + e.getMessage(), e);
 				}
-			}
-		}).start();
+			}).start();
+		}
 	}
 
 	private void onSendCommandClicked() {
@@ -391,10 +394,10 @@ public class CmusDroidRemoteActivity extends Activity {
 
 	private void addTagOrSetting(CmusStatus cmusStatus, String line) {
 		int firstSpace = line.indexOf(' ');
-		int secondSpace = line.indexOf(' ', firstSpace+1);
+		int secondSpace = line.indexOf(' ', firstSpace + 1);
 		String type = line.substring(0, firstSpace);
-		String key = line.substring(firstSpace+1, secondSpace);
-		String value = line.substring(secondSpace+1);
+		String key = line.substring(firstSpace + 1, secondSpace);
+		String value = line.substring(secondSpace + 1);
 		if (type.equals("set")) {
 			cmusStatus.setSetting(key, value);
 		} else if (type.equals("tag")) {
@@ -416,7 +419,7 @@ public class CmusDroidRemoteActivity extends Activity {
 			} else {
 				int firstSpace = str.indexOf(' ');
 				String type = str.substring(0, firstSpace);
-				String value = str.substring(firstSpace+1);
+				String value = str.substring(firstSpace + 1);
 				if (type.equals("status")) {
 					cmusStatus.setStatus(value);
 				} else if (type.equals("file")) {
@@ -428,7 +431,7 @@ public class CmusDroidRemoteActivity extends Activity {
 				}
 			}
 		}
-		
+
 		alert("Received Status", cmusStatus.toSimpleString());
 	}
 
@@ -450,7 +453,8 @@ public class CmusDroidRemoteActivity extends Activity {
 			private void handleCmdAnswer(BufferedReader in, final CmusCommand command) throws Exception {
 				final String cmdAnswer = readAnswer(in);
 				if (cmdAnswer != null && cmdAnswer.trim().length() != 0) {
-					Log.v(TAG, "Received answer to " + command.getLabel() + ": " + cmdAnswer.replaceAll("\n", "\n\t").replaceFirst("\n\t", "\n"));
+					Log.v(TAG, "Received answer to " + command.getLabel() + ": "
+							+ cmdAnswer.replaceAll("\n", "\n\t").replaceFirst("\n\t", "\n"));
 					CmusDroidRemoteActivity.this.runOnUiThread(new Runnable() {
 						public void run() {
 							if (command.equals(CmusCommand.STATUS)) {
