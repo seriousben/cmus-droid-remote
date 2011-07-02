@@ -4,11 +4,11 @@ h2. How to have fun!
 
 0. Setup Cmus settings
 
-@set passwd=<Your Password>
+@set passwd=<Your Password>@
 
 1. Run Cmus with a network socket and not a Unix file socket:
 
-@cmus --listen 0.0.0.0
+@cmus --listen 0.0.0.0@
 
 2. Connect to it with cmus-droid-remote!
 
@@ -18,12 +18,12 @@ h3. Debugging
 
 1. Try with cmus-remote
 
-@cmus-remote --server localhost --passwd password -C status
+@cmus-remote --server localhost --passwd password -C status@
 
 2. What is going on the network
 
-@sudo tcpdump -i lo tcp -X -v
+@sudo tcpdump -i lo tcp -X -v@
 
 or 
 
-@sudo tcpdump -i wlan0 tcp -X -v 
+@sudo tcpdump -i wlan0 tcp -X -v@
