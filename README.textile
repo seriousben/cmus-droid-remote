@@ -2,7 +2,7 @@ Android version of cmus-remote to control your Cmus music player
 
 h2. How to have fun!
 
-1. Download and install "the last release":https://github.com/dreur/cmus-droid-remote/blob/master/releases/cmus-droid-remote-1.0.apk
+1. Download and install "the last release":https://github.com/downloads/dreur/cmus-droid-remote/cmus-droid-remote-1.0.apk
 
 2. Setup Cmus settings
 
