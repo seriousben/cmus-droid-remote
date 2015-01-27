@@ -1,4 +1,4 @@
-h1. CMUS-droid-remote <img src="http://stillmaintained.com/dreur/cmus-droid-remote.png"/>
+h1. CMUS-droid-remote <img src="http://stillmaintained.com/seriousben/cmus-droid-remote.png"/>
 
 Android version of cmus-remote to control your Cmus music player
 
